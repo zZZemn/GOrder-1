@@ -19,7 +19,7 @@ if(isset($_POST['signin'])){
                 
                 if($employee["role"] == "admin")
                     {
-                        header("Location: ../php/admin.php");
+                        header("Location: ../php/admin/admin.php");
                     }
     
                 else if($employee["role"] === "assistant")
@@ -35,7 +35,7 @@ if(isset($_POST['signin'])){
             }
             else
             {
-                echo 'Deactivated';
+                echo 'This account is deactivated';
             }
         }
         else
