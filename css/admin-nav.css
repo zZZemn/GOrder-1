@@ -41,6 +41,34 @@ body {
     border-radius: 50%;
 }
 
+.avatar-dropdown {
+    cursor: pointer;
+}
+
+.avatar-dropdown-container {
+    background-color: white;
+    position: absolute;
+    top: 61px;
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: space-around;
+    padding: 20px;
+
+    display: none;
+    box-shadow: 1px 1px 3px rgb(216, 216, 216);
+}
+
+.avatar-dropdown-container a {
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+
+
 /* side nav */
 
 .sidenav {
