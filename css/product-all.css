@@ -52,3 +52,29 @@
 .product-table tbody tr td, th {
     font-size: 12px;
 }
+
+.desc {
+    position: relative;
+    display: inline-block;
+}
+
+.desc span {
+    position: absolute;
+    visibility: hidden;
+    width: 300px;
+    top: 100%;
+    transform: translateX(-100%);
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0,0,0,.3);
+
+    z-index: 1;
+}
+
+.desc:hover span {
+    visibility: visible;
+} 
+
+.action-btn a{
+    color: black;
+}

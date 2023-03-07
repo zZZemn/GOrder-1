@@ -30,9 +30,7 @@
 <body>
   <?php if (isset($user) && $user["role"] == "admin"): ?>
       <nav class="top-nav">
-
-        <img class="logo" src="../../img/ggd-text-logo.png" alt="Golden Gate Drugstore">
-
+          <img class="logo" src="../../img/ggd-text-logo.png" alt="Golden Gate Drugstore">
         <ul>
 
           <li class="message-dropdown"><a><i class="fa-solid fa-message"></i></a></li>
@@ -223,13 +221,13 @@
                   <th scope="col">Measurement</th>
                   <th scope="col">Critical Level</th>
                   <th scope="col">Quantity</th>
-                  <th scope="col">Description</th>
+                  <th scope="col">Action</th>
               </tr>  
               </thead>
 
               <tbody id="results" class="h6">
                 <?php
-                    $sql = "SELECT * FROM tblproducts";
+                    $sql = "SELECT * FROM tblproducts ORDER BY product_name ASC";
                     $result = $conn->query($sql);
                     
                     if($result->num_rows > 0)
@@ -246,11 +244,14 @@
                                 <td><?php echo $row['product_measurement'] ?></td>
                                 <td><?php echo $row['critical_level'] ?></td>
                                 <td><?php echo $row['product_qty'] ?></td>
-                                <td>desc</td>
+                                <td class="action-btn">
+                                  <?php echo "<a href='#' class='desc'><i class='fa-solid fa-bookmark'></i><span>".$row['product_desc']."</span></a>"?>
+                                  <?php echo "<a href='product-all-edit.php?product_code=".$row['product_code']."'><i class='fa-solid fa-pen-to-square'></i></a>"?>
+                                  <?php echo "<a href='product-all-delete.php?product_code=".$row['product_code']."'><i class='fa-solid fa-trash-can'></i></a>"?>
+                                  <a href="produc-all-delete.php"></a>
+                                </td>
                             </tr>
-
                 <?php   
-
                         }
                     }
                 ?>  

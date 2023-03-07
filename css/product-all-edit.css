@@ -1,0 +1,13 @@
+form {
+    position: relative;
+    background-color: white;
+    box-shadow: 1px 1px 10px black;
+}
+
+.close {
+    font-size: 30px;
+    color: black;
+    position: absolute;
+    top: 0px;
+    right: 7px;
+}

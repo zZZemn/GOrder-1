@@ -67,6 +67,8 @@ body {
 
     display: none;
     box-shadow: 1px 1px 3px rgb(216, 216, 216);
+
+    z-index: 2;
 }
 
 .message-dropdown-container a {
@@ -135,6 +137,8 @@ body {
 
     display: none;
     box-shadow: 1px 1px 3px rgb(216, 216, 216);
+
+    z-index: 2;
 }
 
 .notification-dropdown-container hr {
@@ -175,6 +179,8 @@ body {
 
     display: none;
     box-shadow: 1px 1px 3px rgb(216, 216, 216);
+
+    z-index: 2;
 }
 
 .avatar-dropdown-container a {
