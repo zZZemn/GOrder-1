@@ -21,8 +21,9 @@
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,900;1,200;1,500&family=Roboto+Condensed:wght@300;400&display=swap');
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../../css/admin-nav.css">
-    <link rel="stylesheet" href="../../css/admin-search.css">
+    <link rel="stylesheet" href="../../css/product-all.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <title>GOrder | All Products</title>
 </head>
@@ -207,49 +208,56 @@
       </div>
 
       <div class="main">
-        <form class="search-bar">
-            <input type="text" id="search" placeholder="Search...">
-            <button type="submit"><i class="fas fa-search"></i></button>
+        <form class="search-bar mt-3">
+            <input type="text" id="search" placeholder="Search..." value="">
+            <button type="submit" disabled><i class="fas fa-search"></i></button>
         </form>
 
-        <table class="table table-striped mt-4">
+        <table class="product-table table table-striped mt-4">
               <thead>
               <tr>
-                  <th>Product Code</th>
-                  <th>Name</th>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th>Measurement</th>
-                  <th>Critical Level</th>
-                  <th>Quantity</th>
-                  <th>Description</th>
+                  <th scope="col">Product Code</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Measurement</th>
+                  <th scope="col">Critical Level</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Description</th>
               </tr>  
               </thead>
 
-              <tbody id="results">
+              <tbody id="results" class="h6">
+                <?php
+                    $sql = "SELECT * FROM tblproducts";
+                    $result = $conn->query($sql);
+                    
+                    if($result->num_rows > 0)
+                    {
+                        while($row = $result->fetch_assoc())
+                        {
+                ?>
+                        
+                            <tr>
+                                <td><?php echo $row['product_code'] ?></td>
+                                <td><?php echo $row['product_name'] ?></td>
+                                <td><?php echo $row['category'] ?></td>
+                                <td><?php echo $row['selling_price'] ?></td>
+                                <td><?php echo $row['product_measurement'] ?></td>
+                                <td><?php echo $row['critical_level'] ?></td>
+                                <td><?php echo $row['product_qty'] ?></td>
+                                <td>desc</td>
+                            </tr>
 
+                <?php   
+
+                        }
+                    }
+                ?>  
               </tbody>
         </table>
       </div>
-      
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#search').keyup(function() { // When the user types in the search field
-            var query = $(this).val(); // Get the search query
-            if (query.length >= 3) { // If the query is at least 3 characters long
-                $.ajax({
-                url: '../../process/search-process.php',
-                type: 'POST',
-                data: { query: query },
-                success: function(data) {
-                    $('#results').html(data); // Update the search results
-                }
-                });
-            }
-            });
-        });
-    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>    
     <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
@@ -257,6 +265,7 @@
     <script src="../../javascript/nav-avatar-dropdown.js"></script>
     <script src="../../javascript/nav-notif-dropdown.js"></script>
     <script src="../../javascript/nav-message-dropdown.js"></script>
+    <script src="../../javascript/product-all-search.js"></script>
 
   <?php else: ?>  
       <div class="no-account-selected"">

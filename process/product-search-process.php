@@ -1,10 +1,10 @@
 <?php
 include "../database/db.php";
 
-  if (isset($_POST['query'])) {
+  if (isset($_POST['query'])) 
+  {
     $query = $_POST['query'];
 
-    // Query the database or perform any other search operation
     $sql = "SELECT * FROM tblproducts WHERE product_name LIKE '%$query%'";
     $search = $conn->query($sql);
 
@@ -14,19 +14,20 @@ include "../database/db.php";
         {
             $result = 
             "<tr>
-                <td>".$row['product_code']."</td>
+                <th scope='row'>".$row['product_code']."</th>
                 <td>".$row['product_name']."</td>
                 <td>".$row['category']."</td>
                 <td>".$row['selling_price']."</td>
                 <td>".$row['product_measurement']."</td>
                 <td>".$row['critical_level']."</td>
                 <td>".$row['product_qty']."</td>
-                <td>".$row['product_desc']."</td>
+                <td>read</td>
             </tr>";
             
             echo $result;
         }
     }
+
     else
     {
         echo 
@@ -37,5 +38,9 @@ include "../database/db.php";
         </tr>";
     }
 
+  }
+  else 
+  {
+    echo "all data";
   }
 ?>
