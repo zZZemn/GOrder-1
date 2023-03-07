@@ -21,13 +21,75 @@
         <img class="logo" src="../../img/ggd-text-logo.png" alt="Golden Gate Drugstore">
 
         <ul>
-          <li><a><i class="fa-solid fa-message"></i></a></li>
-          <li>
+
+          <li class="message-dropdown"><a><i class="fa-solid fa-message"></i></a></li>
+          <div class="message-dropdown-container">
+
+              <a href="#">
+               <div class="from">
+                 <img src="https://avatars.githubusercontent.com/u/89580716?v=4" alt="avatar">
+                 <h3>Emmanuel Ugaban</h3>
+               </div>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, veritatis iusto suscipit eos voluptate, quae totam nisi nihil facilis accusantium a nesciunt labore, sit accusamus provident architecto delectus ipsa quas.</p>
+                <article>03/07/25</article>
+              </a>
+              <hr>
+
+              <a href="#">
+               <div class="from">
+                 <img src="https://avatars.githubusercontent.com/u/89580716?v=4" alt="avatar">
+                 <h3>Emmanuel Ugaban</h3>
+               </div>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, veritatis iusto suscipit eos voluptate, quae totam nisi nihil facilis accusantium a nesciunt labore, sit accusamus provident architecto delectus ipsa quas.</p>
+                <article>03/07/25</article>
+              </a>
+              <hr>
+
+              <a href="#">
+               <div class="from">
+                 <img src="https://avatars.githubusercontent.com/u/89580716?v=4" alt="avatar">
+                 <h3>Emmanuel Ugaban</h3>
+               </div>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, veritatis iusto suscipit eos voluptate, quae totam nisi nihil facilis accusantium a nesciunt labore, sit accusamus provident architecto delectus ipsa quas.</p>
+                <article>03/07/25</article>
+              </a>
+              <hr>
+
+              <a href="#">
+               <div class="from">
+                 <img src="https://avatars.githubusercontent.com/u/89580716?v=4" alt="avatar">
+                 <h3>Emmanuel Ugaban</h3>
+               </div>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, veritatis iusto suscipit eos voluptate, quae totam nisi nihil facilis accusantium a nesciunt labore, sit accusamus provident architecto delectus ipsa quas.</p>
+                <article>03/07/25</article>
+              </a>
+              <hr>
+
+              <a href="#">
+               <div class="from">
+                 <img src="https://avatars.githubusercontent.com/u/89580716?v=4" alt="avatar">
+                 <h3>Emmanuel Ugaban</h3>
+               </div>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis, veritatis iusto suscipit eos voluptate, quae totam nisi nihil facilis accusantium a nesciunt labore, sit accusamus provident architecto delectus ipsa quas.</p>
+                <article>03/07/25</article>
+              </a>
+              <hr>
+
+          </div>
+
+          <li  class="notification-dropdown">
             <i class="fa-solid fa-bell"></i>
             <!-- <span class="badge rounded-pill badge-notification bg-danger">1</span> -->
           </li>
+          <div class="notification-dropdown-container">
+              <a href="#">Product Low</a>
+              <hr>
+              <a href="#">Product Low</a>
+              <hr>
+              <a href="#">Product Low</a>
+          </div>
           
-          <li class="avatar-dropdown" id="avatar-dropdown"><img src="https://avatars.githubusercontent.com/u/89580716?v=4" alt="avatar"></li>
+          <li class="avatar-dropdown"><img src="https://avatars.githubusercontent.com/u/89580716?v=4" alt="avatar"></li>
             <div class="avatar-dropdown-container">
               <a href="#"><i class="fa-solid fa-user"></i>Profile</a>
               <hr>
@@ -89,5 +151,7 @@
     <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
     <script src="../../javascript/side-nav-dropdown.js"></script>
     <script src="../../javascript/nav-avatar-dropdown.js"></script>
+    <script src="../../javascript/nav-notif-dropdown.js"></script>
+    <script src="../../javascript/nav-message-dropdown.js"></script>
 </body>
 </html>

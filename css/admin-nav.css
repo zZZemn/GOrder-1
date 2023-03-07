@@ -1,5 +1,6 @@
 body {
     background-color: rgb(245, 245, 245) !important;
+    overflow: hidden;
 }
 
 /* Top nav */
@@ -25,10 +26,11 @@ body {
     align-items: center;
     justify-content: space-around;
     height: 60px;
-    width: 150px;
+    width: 600px;
     position: absolute;
     top: 0;
     right: 20px;
+    padding-left: 400px;
 }
 
 .top-nav ul li {
@@ -41,8 +43,109 @@ body {
     border-radius: 50%;
 }
 
+.message-dropdown {
+    cursor: pointer;
+}
+
+.message-active {
+    color: #007bff;
+}
+
+.message-dropdown-container {
+    background-color: white;
+    height: 400px;
+    position: absolute;
+    top: 61px;
+    right: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: space-around;
+    padding: 20px;
+
+    overflow-y: scroll;
+
+    display: none;
+    box-shadow: 1px 1px 3px rgb(216, 216, 216);
+}
+
+.message-dropdown-container a {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: black;
+}
+
+.message-dropdown-container a .from {
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.message-dropdown-container .from img {
+    height: 25px;
+}
+
+.message-dropdown-container .from h3 {
+    font-size: 14px;
+    margin: 20px;
+}
+
+.message-dropdown-container a p {
+    font-size: 12px;
+    height: 40px;
+    overflow-y: scroll;
+    padding-left: 5px;
+}
+
+.message-dropdown-container article {
+    font-size: 10px;
+    padding-left: 5px;
+}
+
+/* ------ */
+
+.notification-dropdown {
+    cursor: pointer;
+}
+
+.notification-active {
+    color: #007bff;
+}
+
+.notification-dropdown-container {
+    background-color: white;
+    position: absolute;
+    top: 61px;
+    right: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: space-around;
+    padding: 20px;
+
+    display: none;
+    box-shadow: 1px 1px 3px rgb(216, 216, 216);
+}
+
+.notification-dropdown-container a {
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
 .avatar-dropdown {
     cursor: pointer;
+
+    border: 2px solid #007bff;
+    border-radius: 50%;
+    
+    border-color: #007bff00;
+}
+
+.avatar-active {
+    border-color: #007bff;
 }
 
 .avatar-dropdown-container {
