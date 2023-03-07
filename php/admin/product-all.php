@@ -22,8 +22,9 @@
       @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,900;1,200;1,500&family=Roboto+Condensed:wght@300;400&display=swap');
     </style>
     <link rel="stylesheet" href="../../css/admin-nav.css">
+    <link rel="stylesheet" href="../../css/admin-search.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <title>GOrder</title>
+    <title>GOrder | All Products</title>
 </head>
 <body>
   <?php if (isset($user) && $user["role"] == "admin"): ?>
@@ -144,7 +145,7 @@
       <!-- side nav -->
 
       <div class="sidenav">
-        <a href="admin.php" class="nav-active"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+        <a href="admin.php"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
 
         <hr>
 
@@ -152,7 +153,7 @@
           <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-          <a href="product-all.php"><i class="fa-solid fa-prescription"></i>All Products</a>
+          <a href="product-all.php" class="nav-active"><i class="fa-solid fa-prescription"></i>All Products</a>
           <a href="product-inventory.php"><i class="fa-solid fa-boxes-stacked"></i>Inventory</a>
           <a href="product-deliver.php"><i class="fa-solid fa-truck"></i>Deliver</a>
           <a href="product-supplier.php"><i class="fa-solid fa-building"></i>Supplier</a>
@@ -206,9 +207,49 @@
       </div>
 
       <div class="main">
+        <form class="search-bar">
+            <input type="text" id="search" placeholder="Search...">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
 
+        <table class="table table-striped mt-4">
+              <thead>
+              <tr>
+                  <th>Product Code</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Measurement</th>
+                  <th>Critical Level</th>
+                  <th>Quantity</th>
+                  <th>Description</th>
+              </tr>  
+              </thead>
+
+              <tbody id="results">
+
+              </tbody>
+        </table>
       </div>
-
+      
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#search').keyup(function() { // When the user types in the search field
+            var query = $(this).val(); // Get the search query
+            if (query.length >= 3) { // If the query is at least 3 characters long
+                $.ajax({
+                url: '../../process/search-process.php',
+                type: 'POST',
+                data: { query: query },
+                success: function(data) {
+                    $('#results').html(data); // Update the search results
+                }
+                });
+            }
+            });
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>    
     <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
@@ -218,7 +259,7 @@
     <script src="../../javascript/nav-message-dropdown.js"></script>
 
   <?php else: ?>  
-      <div class="no-account-selected">
+      <div class="no-account-selected"">
           <h1>You don't have permission to access this page</h1>
       </div>
   <?php endif; ?>

@@ -107,10 +107,18 @@ body {
 
 .notification-dropdown {
     cursor: pointer;
+    position: relative;
 }
 
 .notification-active {
     color: #007bff;
+}
+
+.badge {
+   position: absolute;
+   right: 0;
+   top: 0;
+   font-size: 9px !important;
 }
 
 .notification-dropdown-container {
@@ -124,8 +132,13 @@ body {
     justify-content: space-around;
     padding: 20px;
 
+
     display: none;
     box-shadow: 1px 1px 3px rgb(216, 216, 216);
+}
+
+.notification-dropdown-container hr {
+    margin: 5px 0px;
 }
 
 .notification-dropdown-container a {
@@ -133,6 +146,7 @@ body {
     font-family: 'Poppins', sans-serif;
     letter-spacing: 1px;
     text-decoration: none;
+    font-size: 12px;
 }
 
 .avatar-dropdown {
@@ -175,8 +189,8 @@ body {
 /* side nav */
 
 .sidenav {
-    height: 100%;
-    width: 220px;
+    height: 92%;
+    width: 250px;
     position: fixed;
     z-index: 1;
     top: 61px;
@@ -240,6 +254,7 @@ body {
 .dropdown-container {
     display: none;
     padding-left: 8px;
+    margin-top: 5px;
 }
 
 .dropdown-container a {
@@ -258,7 +273,7 @@ i {
 
   /* Main content */
 .main {
-    margin-left: 220px; /* Same as the width of the sidenav */
+    margin-left: 250px; /* Same as the width of the sidenav */
     font-size: 20px; /* Increased text to enable scrolling */
     padding: 10px 10px;
 }
