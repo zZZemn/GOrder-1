@@ -11,7 +11,7 @@
       $user = $result->fetch_assoc();
   }
 ?>
-
+<?php if (isset($user) && $user["role"] == "admin"): ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +29,6 @@
     <title>GOrder | All Products</title>
 </head>
 <body>
-  <?php if (isset($user) && $user["role"] == "admin"): ?>
       <nav class="top-nav bg-dark">
           <img class="logo" src="../../img/ggd-text-logo.png" alt="Golden Gate Drugstore">
         <ul>
