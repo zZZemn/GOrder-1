@@ -29,6 +29,7 @@
             integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
             crossorigin="anonymous">
         <link rel="shortcut icon" href="../../img/ggd-logo.png" type="image/x-icon">
+        <link rel="stylesheet" href="../../css/product-all-supplier.css">
         <title>GOrder | Supplier</title>
     </head>
     <body>
@@ -256,6 +257,49 @@
                 <i class="fas fa-search"></i>
             </button>
         </form>
+
+        <div class="parent-container container row w-100 m-auto mt-5">
+
+            <?php 
+                $sql = "SELECT * FROM tblsupplier";
+                $result = $conn->query($sql);
+
+                if($result->num_rows > 0)
+                {
+                    while($row = $result->fetch_assoc())
+                    {
+            ?>
+                    <div class="supplier container row p-3 m-auto mb-3">
+                        <h4 class="text-primary"><?php echo $row['supplier_name'] ?></h4>
+                        <hr class="mt-2">
+                        <table class="supplier-tbl">
+                            <tr class="supplier-label text-info">
+                                <td>Supplier ID</td>
+                                <td>Contact Number</td>
+                                <td>Email</td>
+                            </tr>
+                            <tr class="second-row">
+                                <td><?php echo $row['supplier_id'] ?></td>
+                                <td><?php echo $row['contact_number'] ?></td>
+                                <td><?php echo $row['email'] ?></td>
+                            </tr>
+                        </table>
+                        <hr class="mt-3">
+                        <table class="add-table">
+                            <tr>
+                                <td class="add-table-label text-info">Address</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center mt-4"><?php echo $row['address'] ?></td>
+                            </tr>
+                        </table>
+                    </div>
+            <?php 
+                    }
+                }
+              ?>
+
+        </div>
 
     </div>
 
