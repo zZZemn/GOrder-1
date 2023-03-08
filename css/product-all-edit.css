@@ -11,3 +11,23 @@ form {
     top: 0px;
     right: 7px;
 }
+
+.notice {
+    color: red !important;
+    text-decoration: none;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+.notice span {
+    margin-left: 5px;
+    padding: 10px;
+    font-size: 13px;
+
+    visibility: hidden;
+}
+
+.notice:hover span {
+    visibility: visible;
+}

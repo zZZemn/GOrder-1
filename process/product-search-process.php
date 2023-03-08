@@ -37,7 +37,7 @@ include "../database/db.php";
         echo 
         "<tr>
             <td colspan='8' style = 'text-align: center; padding: 50px;'>
-                <em>Product not found</em>
+                <em style='color: red;'>Product not found</em>
             </td>
         </tr>";
     }
