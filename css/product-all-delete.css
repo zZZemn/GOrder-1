@@ -1,0 +1,21 @@
+.del-container {
+    position: relative;
+    background-color: white;
+    box-shadow: 1px 1px 10px black;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    border-radius: 5px;
+}
+
+.del-container p {
+    font-size: 20px;
+}
+
+.del-container p em {
+    color: red;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+}

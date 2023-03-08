@@ -11,7 +11,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 10px;
+    padding: 0 10px;
 
     box-shadow: 1px 1px 3px rgb(216, 216, 216);
 }
@@ -34,7 +34,7 @@ body {
 
 .top-nav ul li {
     list-style: none;
-    margin: 0px 5px;
+    margin: 0 5px;
 }
 
 .top-nav ul img {
@@ -79,7 +79,7 @@ body {
 }
 
 .message-dropdown-container hr {
-    color:  white;
+    color: white;
 }
 
 .message-dropdown-container a .from {
@@ -122,10 +122,10 @@ body {
 }
 
 .badge {
-   position: absolute;
-   right: 0;
-   top: 0;
-   font-size: 9px !important;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 9px !important;
 }
 
 .notification-dropdown-container {
@@ -139,7 +139,6 @@ body {
     justify-content: space-around;
     padding: 20px;
 
-
     display: none;
     box-shadow: 1px 1px 3px rgb(216, 216, 216);
 
@@ -147,7 +146,7 @@ body {
 }
 
 .notification-dropdown-container hr {
-    margin: 5px 0px;
+    margin: 5px 0;
     color: white;
 }
 
@@ -164,7 +163,7 @@ body {
 
     border: 2px solid #007bff;
     border-radius: 50%;
-    
+
     border-color: #007bff00;
 }
 
@@ -176,7 +175,7 @@ body {
     background-color: #212529;
     position: absolute;
     top: 60px;
-    right: 0px;
+    right: 0;
     display: flex;
     flex-direction: column;
     align-items: left;
@@ -200,8 +199,6 @@ body {
     color: white;
 }
 
-
-
 /* side nav */
 
 .sidenav {
@@ -221,16 +218,17 @@ body {
     font-family: 'Poppins', sans-serif;
     letter-spacing: 1px;
 }
-  
-.sidenav a, .dropdown-btn {
-    padding: 13px 0px 13px 20px;
+
+.dropdown-btn,
+.sidenav a {
+    padding: 13px 0 13px 20px;
     text-decoration: none;
     font-size: 17px;
     color: #424242;
     display: block;
     border: none;
     background: none;
-    width:100%;
+    width: 100%;
     text-align: left;
     cursor: pointer;
     outline: none;
@@ -238,7 +236,8 @@ body {
     border-radius: 5px;
 }
 
-.sidenav a:hover, .dropdown-btn:hover {
+.dropdown-btn:hover,
+.sidenav a:hover {
     color: #5a5a5a;
 }
 
@@ -246,7 +245,7 @@ body {
     background-color: rgb(165, 165, 165);
     border: none;
     height: 1px;
-    margin: 2px 0px;
+    margin: 2px 0;
 }
 
 .active {
@@ -287,9 +286,11 @@ i {
     padding-right: 15px;
 }
 
-  /* Main content */
+/* Main content */
 .main {
-    margin-left: 250px; /* Same as the width of the sidenav */
-    font-size: 20px; /* Increased text to enable scrolling */
-    padding: 10px 10px;
+    margin-left: 250px;
+    /* Same as the width of the sidenav */
+    font-size: 20px;
+    /* Increased text to enable scrolling */
+    padding: 10px;
 }

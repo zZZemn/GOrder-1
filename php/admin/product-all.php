@@ -230,11 +230,13 @@
                 <?php
                     $sql = "SELECT * FROM tblproducts ORDER BY product_name ASC";
                     $result = $conn->query($sql);
+                    $number_of_pro = 0;
                     
                     if($result->num_rows > 0)
                     {
                         while($row = $result->fetch_assoc())
                         {
+                          $number_of_pro += 1;
                 ?>
                         
                             <tr>
@@ -255,9 +257,18 @@
                 <?php   
                         }
                     }
-                ?>  
+                ?>
               </tbody>
+              <tr class="lower-row">
+                  <td class="tot" colspan="1">Total number of products:</th>
+                  <td class="tot number" colspan="6"><?php echo $number_of_pro?></th>
+                  <td class="add-prod">
+                      <a href="product-all-add.php" class="bg-primary">Add</a>
+                  </td>
+              </tr>
         </table>
+
+        
       </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
@@ -270,9 +281,10 @@
     <script src="../../javascript/product-all-search.js"></script>
 
   <?php else: ?>  
-      <div class="no-account-selected"">
-          <h1>You don't have permission to access this page</h1>
-      </div>
+    <div class="no-account-selected" style="height: 90vh; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:red">
+        <h1 style="font-size: 40px;">You don't have permission to access this page</h1>
+        <a href="../../index.php" style="background-color: #007bff; color: white; padding:10px 30px; border-radius:5px; text-decoration:none; font-weight:900;">Login</a>
+    </div>
   <?php endif; ?>
 </body>
 </html>

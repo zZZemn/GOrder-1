@@ -44,40 +44,61 @@
     }
 ?>
 
+<?php if (isset($user) && $user["role"] == "admin"): ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Product <?php echo $product['product_name'] ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link href="../../css/product-all-edit.css" rel="stylesheet">
-</head>
-<?php if (isset($user) && $user["role"] == "admin"): ?>
-    <body class="container p-5 d-flex justify-content-center align-items-center bg-primary">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Edit Product
+            <?php echo $product['product_name'] ?></title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+            crossorigin="anonymous">
+        <link href="../../css/product-all-edit.css" rel="stylesheet">
+    </head>
+    <body
+        class="container p-5 d-flex justify-content-center align-items-center bg-primary">
         <form class="p-5" method="post">
-        
-            <a href="product-all.php" class="close"><i class="fa-solid fa-rectangle-xmark"></i></a>
-            <a href="#" class="notice"><i class="fa-solid fa-triangle-exclamation"></i><span>You can't edit the product code.</span></a>
-            
-        <div class="container">   
-            <div class="container d-flex">
-                <div class="m-3">
-                    <div class="form-group text-primary">
-                        <label for="productCode">Product Code</label>
-                        <input name="product_code" type="number" class="form-control" id="productCode" readonly value="<?php echo $product['product_code']; ?>">
-                    </div>
 
-                    <div class="form-group mt-3">
-                        <label for="productame">Product Name</label>
-                        <input name="product_name" type="text" class="form-control" id="productName" value="<?php echo $product['product_name']; ?>">
-                    </div>
+            <a href="product-all.php" class="close">
+                <i class="fa-solid fa-rectangle-xmark"></i>
+            </a>
+            <a href="#" class="notice">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>You can't edit the product code.</span></a>
 
-                    <div class="form-group mt-3">
-                        <label for="cat">Category</label>
-                        <select name="product_category" class="form-control" id="cat">
-                            <?php 
+            <div class="container">
+                <div class="container d-flex">
+                    <div class="m-3">
+                        <div class="form-group text-primary">
+                            <label for="productCode">Product Code</label>
+                            <input
+                                name="product_code"
+                                type="number"
+                                class="form-control"
+                                id="productCode"
+                                readonly="readonly"
+                                value="<?php echo $product['product_code']; ?>">
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="productame">Product Name</label>
+                            <input
+                                name="product_name"
+                                type="text"
+                                class="form-control"
+                                id="productName"
+                                value="<?php echo $product['product_name']; ?>">
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="cat">Category</label>
+                            <select name="product_category" class="form-control" id="cat">
+                                <?php 
                                 echo "<option value='Branded'";
                                 if($product['category'] == 'Branded')
                                 {
@@ -120,47 +141,76 @@
                                 }
                                 echo ">Milk</option>";
                             ?>
-                        </select>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="m-3">
+                        <div class="form-group">
+                            <label for="sellingPrice">Selling Price</label>
+                            <input
+                                name="selling_price"
+                                type="number"
+                                class="form-control"
+                                id="sellingPrice"
+                                step="0.01"
+                                min="0"
+                                value="<?php echo $product['selling_price']; ?>">
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="Measurement">Measurement</label>
+                            <input
+                                name="product_measurement"
+                                type="text"
+                                class="form-control"
+                                id="Measurement"
+                                value="<?php echo $product['product_measurement'];?>">
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="Measurement">Critical Level</label>
+                            <input
+                                name="critical_level"
+                                type="number"
+                                class="form-control"
+                                id="Measurement"
+                                value="<?php echo $product['critical_level'];?>">
+                        </div>
                     </div>
                 </div>
 
-                <div class="m-3">
-                    <div class="form-group">
-                        <label for="sellingPrice">Selling Price</label>
-                        <input name="selling_price" type="number" class="form-control" id="sellingPrice" step="0.01" min="0" value="<?php echo $product['selling_price']; ?>">
-                    </div>
-
-                    <div class="form-group mt-3">
-                        <label for="Measurement">Measurement</label>
-                        <input name="product_measurement" type="text" class="form-control" id="Measurement" value="<?php echo $product['product_measurement'];?>">
-                    </div>
-
-                    <div class="form-group mt-3">
-                        <label for="Measurement">Critical Level</label>
-                        <input name="critical_level" type="number" class="form-control" id="Measurement" value="<?php echo $product['critical_level'];?>">
-                    </div>
+                <div class="form-group m-auto p-4">
+                    <label for="desc">Product Description</label>
+                    <textarea name="product_desc" class="form-control" id="desc"><?php echo $product['product_desc']; ?></textarea>
                 </div>
             </div>
-            
-            <div class="form-group m-auto p-4">
-                <label for="desc">Product Description</label>
-                <textarea name="product_desc" class="form-control" id="desc"><?php echo $product['product_desc']; ?></textarea>
-            </div>
-        </div>
 
-        <div class="text-center">
-            <input type="submit" name="save" id="save" class="btn btn-primary w-50 mt-3" value="Save">
-        </div>
+            <div class="text-center">
+                <input
+                    type="submit"
+                    name="save"
+                    id="save"
+                    class="btn btn-primary w-50 mt-3"
+                    value="Save">
+            </div>
         </form>
 
         <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>    
-    
-                            
-<?php else: ?>  
-    <div class="no-account-selected"">
-        <h1>You don't have permission to access this page</h1>
-    </div>
-<?php endif; ?>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+            integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+            crossorigin="anonymous"></script>
+
+    <?php else: ?>
+        <div
+            class="no-account-selected"
+            style="height: 90vh; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:red">
+            <h1 style="font-size: 40px;">You don't have permission to access this page</h1>
+            <a
+                href="../../index.php"
+                style="background-color: #007bff; color: white; padding:10px 30px; border-radius:5px; text-decoration:none; font-weight:900;">Login</a>
+        </div>
+        <?php endif; ?>
     </body>
 </html>

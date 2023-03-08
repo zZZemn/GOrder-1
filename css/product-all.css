@@ -78,3 +78,26 @@
 .action-btn a{
     color: black;
 }
+
+
+.tot{
+    text-align: left;
+    font-weight: 600;
+    font-size: 15px !important;
+}
+
+.number {
+    color: #007bff !important;
+}
+
+.add-prod {
+    display: flex;
+}
+
+.add-prod a{
+    color: white;
+    padding: 2px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
