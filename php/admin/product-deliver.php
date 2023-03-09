@@ -300,7 +300,9 @@
             </button>
         </form>
 
-        <form class="adding-form m-auto mt-3 w-75 p-2 d-flex justify-content-center" method="post">
+        <form
+            class="adding-form m-auto mt-3 w-75 p-2 d-flex justify-content-center"
+            method="post">
             <table class="w-100">
                 <tr class="adding-table-label">
                     <td>Delivery Price</td>
@@ -394,10 +396,9 @@
                     <td><?php echo $row['supplier_id'] ?></td>
                     <td><?php echo $row['delivery_date'] ?></td>
                     <td class="action">
-                        <a
-                            href="product-deliver-add-inventory.php?inventory_id=<?php echo $row['del_ID'] ?>">
+                        <button>
                             <i class="fa-regular fa-square-plus"></i>
-                        </a>
+                        </button>
                         <a href="#">
                             <i class='fa-solid fa-pen-to-square'></i>
                         </a>
@@ -406,6 +407,47 @@
                         </a>
                     </td>
                 </tr>
+
+                <div class="adding-inventory d-flex justify-content-center p-2">
+                    <form>
+                    <div class="form-group">
+                            <input
+                                name="pro"
+                                type="text"
+                                class="form-control"
+                                id="pro"
+                                required="required">
+                        </div>
+
+                        <div class="form-group">
+                            <input
+                                name="qty"
+                                type="number"
+                                class="form-control"
+                                id="qty"
+                                required="required">
+                        </div>
+
+                        <div class="form-group">
+                            <input
+                                name="date"
+                                type="date"
+                                class="form-control"
+                                id="date"
+                                required="required">
+                        </div>
+
+                        <div class="form-group">
+                            <input
+                                name="add_inv"
+                                type="submit"
+                                class="form-control btn btn-primary"
+                                id="add_inv"
+                                required="required"
+                                value="Add">
+                        </div>
+                    </form>
+                </div>
             </table>
 
             <?php
