@@ -10,6 +10,48 @@
       $result = $conn->query($sql);
       $user = $result->fetch_assoc();
   }
+
+  if(isset($_POST['add']))
+  {
+    $delivery_id = null;
+    $random_number = sprintf("%05d", rand(0, 99999));
+
+    $del_price = $_POST['del_price'];
+    $del_date = $_POST['del_date'];
+    $supp_id = $_POST['supp_id'];
+
+    $sqlD_id = "SELECT del_ID FROM tbldeliver WHERE del_ID = '$random_number'";
+    $result = $conn->query($sqlD_id);
+
+    if($result->num_rows > 0)
+    {
+        echo "
+            <script>
+                alert('Failed to add. Please try again');
+            </script>
+            ";
+    }
+    else
+    {
+        $delivery_id = $random_number;
+
+        $sql = "INSERT INTO `tbldeliver`(`del_ID`, `delivery_date`, `delivery_price`, `supplier_id`) 
+        VALUES ('$delivery_id','$del_date','$del_price','$supp_id')";
+
+        if($conn->query($sql))
+        {
+            header("Location: product-deliver.php");
+        }
+        else
+        {
+            echo "
+            <script>
+                alert('Failed to add. Please try again');
+            </script>
+            ";
+        }
+    }
+  }
 ?>
 
 <?php if (isset($user) && $user["role"] == "admin"): ?>
@@ -258,8 +300,8 @@
             </button>
         </form>
 
-        <form class="adding-form m-auto mt-3 w-75 p-2 " method="post">
-            <table>
+        <form class="adding-form m-auto mt-3 w-75 p-2 d-flex justify-content-center" method="post">
+            <table class="w-100">
                 <tr class="adding-table-label">
                     <td>Delivery Price</td>
                     <td>Delivery Date</td>
@@ -319,7 +361,59 @@
                 </tr>
             </table>
         </form>
+        <div class="delivery-parent-container">
+            <?php 
+        
+        
+        $sql = "SELECT * FROM tbldeliver ORDER BY delivery_date ASC";
+        $result = $conn->query($sql);
 
+        if($result->num_rows > 0)
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $supp_id = $row['supplier_id'];
+
+                $sql = "SELECT * FROM tblsupplier WHERE supplier_ID = $supp_id";
+                $supp = $conn->query($sql); 
+                $supplier = $supp->fetch_assoc();
+        ?>
+
+            <table class="delivery-container container mt-2 w-100">
+                <tr class="label">
+                    <td>ID</td>
+                    <td>Total Price</td>
+                    <td>Supplier</td>
+                    <td>Date</td>
+                    <td>Action</td>
+                </tr>
+
+                <tr class="details">
+                    <td><?php echo $row['del_ID'] ?></td>
+                    <td><?php echo $row['delivery_price'] ?></td>
+                    <td><?php echo $row['supplier_id'] ?></td>
+                    <td><?php echo $row['delivery_date'] ?></td>
+                    <td class="action">
+                        <a
+                            href="product-deliver-add-inventory.php?inventory_id=<?php echo $row['del_ID'] ?>">
+                            <i class="fa-regular fa-square-plus"></i>
+                        </a>
+                        <a href="#">
+                            <i class='fa-solid fa-pen-to-square'></i>
+                        </a>
+                        <a href="#">
+                            <i class='fa-solid fa-trash-can'></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+            <?php
+            }
+        }
+
+        ?>
+        </div>
     </div>
 
     <script
@@ -346,5 +440,13 @@
             style="background-color: #007bff; color: white; padding:10px 30px; border-radius:5px; text-decoration:none; font-weight:900;">Login</a>
     </div>
     <?php endif; ?>
+
+    <script>
+        if (window.history.replaceState) {
+            window
+                .history
+                .replaceState(null, null, window.location.href);
+        }
+    </script>
 </body>
 </html>
