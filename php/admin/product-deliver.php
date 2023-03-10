@@ -367,7 +367,7 @@
             <?php 
         
         
-        $sql = "SELECT * FROM tbldeliver ORDER BY delivery_date ASC";
+        $sql = "SELECT * FROM tbldeliver ORDER BY delivery_date DESC";
         $result = $conn->query($sql);
 
         if($result->num_rows > 0)
@@ -383,7 +383,7 @@
 
             <table class="delivery-container container mt-2 w-100">
                 <tr class="label">
-                    <td>ID</td>
+                    <td>Delivery ID</td>
                     <td>Total Price</td>
                     <td>Supplier</td>
                     <td>Date</td>
@@ -396,9 +396,6 @@
                     <td><?php echo $row['supplier_id'] ?></td>
                     <td><?php echo $row['delivery_date'] ?></td>
                     <td class="action">
-                        <button>
-                            <i class="fa-regular fa-square-plus"></i>
-                        </button>
                         <a href="#">
                             <i class='fa-solid fa-pen-to-square'></i>
                         </a>
@@ -408,8 +405,21 @@
                     </td>
                 </tr>
 
-                <div class="adding-inventory d-flex justify-content-center p-2">
+                <tr>
+                    <td colspan="5"><hr></td>
+                </tr>
+
+                <tr class="label">
+                    <td colspan="2">Product Name</td>
+                    <td>Quantity</td>
+                    <td>Expriration Date</td>
+                </tr>
+
+                <tr>
+
+               
                     <form>
+                        <td colspan="2">
                     <div class="form-group">
                             <input
                                 name="pro"
@@ -418,6 +428,8 @@
                                 id="pro"
                                 required="required">
                         </div>
+                        </td>
+                        <td>
 
                         <div class="form-group">
                             <input
@@ -427,7 +439,9 @@
                                 id="qty"
                                 required="required">
                         </div>
+                        </td>
 
+                        <td>
                         <div class="form-group">
                             <input
                                 name="date"
@@ -437,6 +451,9 @@
                                 required="required">
                         </div>
 
+                        </td>
+
+                        <td>
                         <div class="form-group">
                             <input
                                 name="add_inv"
@@ -446,8 +463,9 @@
                                 required="required"
                                 value="Add">
                         </div>
+                        </td>
                     </form>
-                </div>
+                </tr>
             </table>
 
             <?php
