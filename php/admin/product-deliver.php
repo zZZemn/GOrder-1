@@ -1,5 +1,6 @@
 <?php 
   session_start();
+  include("../../process/date-time.php");
 
   if (isset($_SESSION["user_ID"])) 
   {
@@ -13,27 +14,24 @@
 
   if(isset($_POST['add']))
   {
-    $delivery_id = null;
-    $random_number = sprintf("%05d", rand(0, 99999));
+    $delivery_id = sprintf("%05d", rand(0, 99999));
 
     $del_price = $_POST['del_price'];
     $del_date = $_POST['del_date'];
     $supp_id = $_POST['supp_id'];
 
-    $sqlD_id = "SELECT del_ID FROM tbldeliver WHERE del_ID = '$random_number'";
+    $sqlD_id = "SELECT COUNT(*) AS count FROM tbldeliver WHERE del_ID = $delivery_id";
     $result = $conn->query($sqlD_id);
+    $row = $result->fetch_assoc();
 
-    if($result->num_rows > 0)
+    while($row['count'] > 0)
     {
-        echo "
-            <script>
-                alert('Failed to add. Please try again');
-            </script>
-            ";
+        $delivery_id = sprintf("%05d", rand(0, 99999));
+
+        $sqlD_id = "SELECT COUNT(*) AS count FROM tbldeliver WHERE del_ID = $delivery_id";
+        $result = $conn->query($sqlD_id);
+        $row = $result->fetch_assoc();
     }
-    else
-    {
-        $delivery_id = $random_number;
 
         $sql = "INSERT INTO `tbldeliver`(`del_ID`, `delivery_date`, `delivery_price`, `supplier_id`) 
         VALUES ('$delivery_id','$del_date','$del_price','$supp_id')";
@@ -44,12 +42,46 @@
         }
         else
         {
-            echo "
-            <script>
-                alert('Failed to add. Please try again');
-            </script>
-            ";
+            echo "<script>
+            alert('Insertion was not successfull');
+            </script>";
         }
+  }
+
+  if(isset($_POST['add_inv']))
+  {
+    $inv_id = sprintf("%05d", rand(0, 99999));
+
+    $product_code = $_POST['pro'];
+    $qty = $_POST['qty'];
+    $exdate = $_POST['date'];
+    $del_id = $_POST['del_id'];
+
+    $sqlI_id = "SELECT COUNT(*) AS count FROM tblinventory WHERE inv_code = $inv_id";
+    $result = $conn->query($sqlI_id);
+    $row = $result->fetch_assoc();
+
+    while($row['count'] > 0)
+    {
+        $inv_id = sprintf("%05d", rand(0, 99999));
+
+        $sqlI_id = "SELECT COUNT(*) AS count FROM tblinventory WHERE inv_ID = $inv_code";
+        $result = $conn->query($sqlD_id);
+        $row = $result->fetch_assoc();
+    }
+
+    $sql = "INSERT INTO `tblinventory`(`inv_code`, `product_code`, `qty`, `expiration_date`, `del_ID`) 
+    VALUES ('$inv_id','$product_code','$qty','$exdate','$del_id')";
+
+    if($conn->query($sql))
+    {
+        header("Location: product-deliver.php");
+    }
+    else
+    {
+        echo "<script type='text/javascript'>
+                window.onload = function () { alert('Product Code ".$product_code." is not available!'); }
+            </script>";
     }
   }
 ?>
@@ -331,7 +363,8 @@
                                 type="date"
                                 class="form-control"
                                 id="delDate"
-                                required="required">
+                                required="required"
+                                max="<?php echo $max_date_formatted ?>">
                         </div>
                     </td>
                     <td>
@@ -396,6 +429,9 @@
                     <td><?php echo $row['supplier_id'] ?></td>
                     <td><?php echo $row['delivery_date'] ?></td>
                     <td class="action">
+                        <a href="product-deliver-per-deliver.php?del_id=<?php echo $row['del_ID'] ?>">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
                         <a href="#">
                             <i class='fa-solid fa-pen-to-square'></i>
                         </a>
@@ -410,59 +446,84 @@
                 </tr>
 
                 <tr class="label">
-                    <td colspan="2">Product Name</td>
+                    <td colspan="2">Product Code</td>
                     <td>Quantity</td>
                     <td>Expriration Date</td>
                 </tr>
 
                 <tr>
 
-               
-                    <form>
+                    <form method="post">
+                        <input
+                            name="del_id"
+                            type="number"
+                            value="<?php echo $row['del_ID'] ?>"
+                            hidden="hidden">
+
                         <td colspan="2">
-                    <div class="form-group">
-                            <input
-                                name="pro"
-                                type="text"
-                                class="form-control"
-                                id="pro"
-                                required="required">
-                        </div>
+                            <div class="form-group">
+                                <input
+                                    name="pro"
+                                    type="text"
+                                    class="form-control"
+                                    id="pro"
+                                    required="required"
+                                    list="products">
+                                <datalist id='products'>
+                                    <?php  
+                                    $product_sql = "SELECT * FROM tblproducts";
+                                    $products_res = $conn->query($product_sql);
+
+                                    if($products_res->num_rows > 0)
+                                    {
+                                        
+                                        while($product_row = $products_res->fetch_assoc())
+                                        {
+
+                                ?>
+                                    <option value="<?php echo $product_row['product_code']?>"><?php echo $product_row['product_name'] ?></option>
+                                    <?php
+                                        }
+                                    }
+                                ?>
+                                </datalist>
+                            </div>
                         </td>
                         <td>
 
-                        <div class="form-group">
-                            <input
-                                name="qty"
-                                type="number"
-                                class="form-control"
-                                id="qty"
-                                required="required">
-                        </div>
+                            <div class="form-group">
+                                <input
+                                    name="qty"
+                                    type="number"
+                                    class="form-control"
+                                    id="qty"
+                                    required="required">
+                            </div>
                         </td>
 
                         <td>
-                        <div class="form-group">
-                            <input
-                                name="date"
-                                type="date"
-                                class="form-control"
-                                id="date"
-                                required="required">
-                        </div>
+                            <div class="form-group">
+                                <input
+                                    name="date"
+                                    type="date"
+                                    class="form-control"
+                                    id="date"
+                                    required="required"
+                                    min="<?php echo $max_date_formatted ?>">
+                            </div>
 
                         </td>
 
                         <td>
-                        <div class="form-group">
-                            <input
-                                name="add_inv"
-                                type="submit"
-                                class="form-control btn btn-primary"
-                                id="add_inv"
-                                required="required"
-                                value="Add">
-                        </div>
+                            <div class="form-group">
+                                <input
+                                    name="add_inv"
+                                    type="submit"
+                                    class="form-control btn btn-primary"
+                                    id="add_inv"
+                                    required="required"
+                                    value="Add">
+                            </div>
                         </td>
                     </form>
                 </tr>
@@ -507,6 +568,13 @@
                 .history
                 .replaceState(null, null, window.location.href);
         }
+
+        setTimeout(function () {
+            var alertElement = document.querySelector(".alert");
+            alertElement
+                .parentNode
+                .removeChild(alertElement);
+        }, 2000);
     </script>
 </body>
 </html>

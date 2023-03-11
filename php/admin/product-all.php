@@ -235,7 +235,20 @@
                     {
                         while($row = $result->fetch_assoc())
                         {
+                          $invQty = 0;
+
                           $number_of_pro += 1;
+
+                          $product_code = $row['product_code'];
+                          $tblInventory = "SELECT * FROM tblinventory WHERE product_code = $product_code";
+                          $tblInventoryResult = $conn->query($tblInventory);
+                          if($tblInventoryResult->num_rows > 0)
+                          {
+                            while($tblInventoryRow = $tblInventoryResult->fetch_assoc())
+                            {
+                              $invQty += $tblInventoryRow['qty'];
+                            }
+                          }
                 ?>
                         
                             <tr>
@@ -245,7 +258,7 @@
                                 <td><?php echo $row['selling_price'] ?></td>
                                 <td><?php echo $row['product_measurement'] ?></td>
                                 <td><?php echo $row['critical_level'] ?></td>
-                                <td><?php echo $row['product_qty'] ?></td>
+                                <td><?php echo $invQty ?></td>
                                 <td class="action-btn">
                                   <?php echo "<a href='#' class='desc'><i class='fa-solid fa-bookmark'></i><span>".$row['product_desc']."</span></a>"?>
                                   <?php echo "<a href='product-all-edit.php?product_code=".$row['product_code']."'><i class='fa-solid fa-pen-to-square'></i></a>"?>

@@ -12,43 +12,45 @@
 
     if(isset($_POST['add']))
     {
-        $product_code = null;
-        $random_number = sprintf("%05d", rand(0, 99999));
-        $sqlP_code = "SELECT product_code FROM tblproducts WHERE product_code = '$random_number'";
         
-        if($p_code_result = $conn->query($sqlP_code))
-        {
-            while($p_code_result->num_rows > 0)
+        $product_code = sprintf("%05d", rand(0, 99999));
+        $sqlP_code = "SELECT COUNT(*) AS count FROM tblproducts WHERE product_code = $product_code";
+        $sqlP_codeR = $conn->query($sqlP_code);
+        $p_row = $sqlPr_code->fetch_assoc();
+
+            while($p_row['count'] > 0)
             {
-                $random_number = sprintf("%05d", rand(0, 99999));
+                $product_code = sprintf("%05d", rand(0, 99999));
+
+                $sqlP_code = "SELECT COUNT(*) AS count FROM tblproducts WHERE product_code = $product_code";
+                $p_row = $sqlP_codeR->fetch_assoc();
             }
-            $product_code = $random_number;
-        }
 
-        $product_name = $_POST['product_name'];
-        $product_category = $_POST['product_category'];
-        $selling_price = $_POST['selling_price'];
-        $product_measurement = $_POST['product_measurement'];
-        $critical_level = $_POST['critical_level'];
-        $product_desc = $_POST['product_desc'];
+            $product_name = $_POST['product_name'];
+            $product_category = $_POST['product_category'];
+            $selling_price = $_POST['selling_price'];
+            $product_measurement = $_POST['product_measurement'];
+            $critical_level = $_POST['critical_level'];
+            $product_desc = $_POST['product_desc'];
+    
+            $sqlAdd = "INSERT INTO tblproducts(`product_code`, `product_name`, `category`, `selling_price`
+            ,`product_measurement`, `critical_level`, `product_desc`) 
+            VALUES ('$product_code','$product_name','$product_category','$selling_price','$product_measurement','$critical_level','$product_desc')";
+    
+            if($conn->query($sqlAdd))
+            {
+                header("Location: product-all.php");
+            }
+            else
+            {
+                echo "
+                <script>
+                    alert('Failed to add this product.');
+                </script>
+                ";
+            }
 
-        $sqlAdd = "INSERT INTO tblproducts(`product_code`, `product_name`, `category`, `selling_price`
-        ,`product_measurement`, `critical_level`, `product_desc`) 
-        VALUES ('$product_code','$product_name','$product_category','$selling_price','$product_measurement','$critical_level','$product_desc')";
-
-        if($conn->query($sqlAdd))
-        {
-            header("Location: product-all.php");
         }
-        else
-        {
-            echo "
-            <script>
-                alert('Failed to add this product.');
-            </script>
-            ";
-        }
-    }
 ?>
 
 <?php if (isset($user) && $user["role"] == "admin"): ?>
