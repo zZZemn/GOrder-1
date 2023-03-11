@@ -270,7 +270,7 @@
                     {
             ?>
             <div class="supplier container row p-3 m-auto mb-3">
-                <h4 class="text-primary"><?php echo $row['supplier_name'] ?></h4>
+                <h4 class="supplier-name"><?php echo $row['supplier_name'] ?></h4>
                 <hr class="mt-2">
                 <table class="supplier-tbl">
                     <tr class="supplier-label text-info">
