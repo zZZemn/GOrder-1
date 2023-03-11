@@ -16,7 +16,7 @@
         $product_code = sprintf("%05d", rand(0, 99999));
         $sqlP_code = "SELECT COUNT(*) AS count FROM tblproducts WHERE product_code = $product_code";
         $sqlP_codeR = $conn->query($sqlP_code);
-        $p_row = $sqlPr_code->fetch_assoc();
+        $p_row = $sqlP_codeR->fetch_assoc();
 
             while($p_row['count'] > 0)
             {

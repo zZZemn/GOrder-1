@@ -38,6 +38,19 @@
     color: white !important;
 }
 
+.table-container {
+    position: relative;
+    overflow-y: scroll;
+    height: 80vh;
+}
+
+.product-table thead{
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
 .product-table thead tr {
     border-bottom: 1px solid rgb(209, 209, 209) !important;
     border-top: 1px solid rgb(209, 209, 209) !important;
@@ -101,3 +114,25 @@
     border-radius: 5px;
 }
 
+.lower-row {
+    position: sticky;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 30px;
+    bottom: 0px;
+    right: 0;
+    height: 50px;
+
+    box-shadow: 1px 1px 5px rgb(228, 228, 228);
+    color: black;
+}
+
+.lower-row a {
+    color: white;
+    padding: 2px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
