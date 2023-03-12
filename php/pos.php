@@ -249,16 +249,17 @@
         <div class="pos-parent">
 
             <div class="left">
-                <form class="search-bar mt-3">
-                    <input type="text" id="search" placeholder="Scan Barcode / Search... " value="">
-                    <button type="submit" disabled="disabled">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+                <div class="item-pick-container">
+                    <form class="search-bar mt-3">
+                        <input type="text" id="search" placeholder="Scan Barcode / Search... " value="">
+                        <button type="submit" disabled="disabled">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
 
-                <div class="result" id="results"> 
+                    <div class="result" id="results">
 
-                    <?php
+                        <?php
                     $sql = "SELECT * FROM tblproducts ORDER BY product_name ASC";
                     $result = $conn->query($sql);
                     $number_of_pro = 0;
@@ -283,63 +284,199 @@
                           }
                           ?>
 
-                    <form class="product-select" method="post">
-                        <input
-                            type="hidden"
-                            name="product_code"
-                            value="<?php echo $row['product_code'] ?> ">
-                        <button class="btn" type="submit" name="submit-procode">
+                        <form class="product-select" method="post">
+                            <input
+                                type="hidden"
+                                name="product_code"
+                                value="<?php echo $row['product_code'] ?> ">
+                            <button class="btn" type="submit" name="submit-procode">
 
-                            <?php echo $row['product_name']." ". $row['product_measurement']  ?>
-                            <div class="details-container">
-                                <div class="detail"><?php echo "PHP ".$row['selling_price']." - ".$invQty." pc/s" ?></div>
-                            </div>
-                        </button>
-                    </form>
+                                <?php echo $row['product_name']." ". $row['product_measurement']  ?>
+                                <div class="details-container">
+                                    <div class="detail"><?php echo "PHP ".$row['selling_price']." - ".$invQty." pc/s" ?></div>
+                                </div>
+                            </button>
+                        </form>
 
-                    <?php
+                        <?php
                         }
                     }
                 ?>
+                    </div>
+
+                    <div class="sales">
+                        Sales
+                    </div>
 
                 </div>
             </div>
-            <div class="right">asd</div>
+            <div class="right">
 
-        </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Measurement</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-            crossorigin="anonymous"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
-            integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
-            crossorigin="anonymous"></script>
-        <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
-        <script src="../../javascript/side-nav-dropdown.js"></script>
-        <script src="../javascript/nav-avatar-dropdown.js"></script>
-        <script src="../javascript/nav-notif-dropdown.js"></script>
-        <script src="../javascript/nav-message-dropdown.js"></script>
-        <script src="../javascript/pos-product-search.js"></script>
+                        <tbody>
+                            <?php 
+                            
+                            $pos_items_query = "SELECT * FROM tblpos_cur_process";
+                            $pos_items = $conn->query($pos_items_query);
+                            
+                            if($pos_items->num_rows > 0)
+                            {
+                                while($item = $pos_items->fetch_assoc())
+                                {
+                                    $product_code = $item['product_code'];
 
-    <?php else: ?>
-        <div
-            class="no-account-selected"
-            style="height: 90vh; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:red">
-            <h1 style="font-size: 40px;">You don't have permission to access this page</h1>
-            <a
-                href="../../index.php"
-                style="background-color: #007bff; color: white; padding:10px 30px; border-radius:5px; text-decoration:none; font-weight:900;">Login</a>
-        </div>
-        <?php endif; ?>
+                                    $product_query = "SELECT * FROM tblproducts WHERE product_code = $product_code"; 
+                                    $product_query_res = $conn->query($product_query);
+                                    $product = $product_query_res->fetch_assoc();
+                            ?>
 
-        <script>
-            if (window.history.replaceState) {
-                window
-                    .history
-                    .replaceState(null, null, window.location.href);
-            }
-        </script>
-    </body>
-</html>
+                            <tr>
+                                <td class="product-name"><?php echo $product['product_name']?></td>
+                                <td><?php echo $product['product_measurement']?></td>
+                                <td><?php echo $product['selling_price'] ?></td>
+                                <td><input
+                                    type="number"
+                                    min="1"
+                                    class="quantity-input"
+                                    data-product-id="<?php echo $item['product_code'] ?>"
+                                    name="qty"
+                                    id="qty"
+                                    value="<?php echo $item['qty'] ?>"></td>
+                                <td>
+                                    <span
+                                        class="price-display"
+                                        data-product-id="<?php echo $item['product_code'] ?>"><?php echo $item['amount'] ?></span></td>
+                                <td></tr>
+
+                                <?php
+                                }
+                            }
+                            
+                            ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <?php 
+                            $subtotal = 0;
+                            $sql = "SELECT * FROM tblpos_cur_process";
+                            $result = $conn->query($sql);
+                            if($result->num_rows > 0)
+                            {
+                                while($row = $result->fetch_assoc())
+                                {
+                                    $subtotal += $row['amount'];
+                                }
+                            }
+
+                            $maintenance_query = "SELECT * FROM `tblmaintenance` WHERE 1";
+                            $maintenance_query_res = $conn->query($maintenance_query);
+                            $maintenance = $maintenance_query_res->fetch_assoc();
+
+                                          
+                            $taxPercentage = $maintenance['tax_percentage'];                        
+                            $discountpercentage = $maintenance['discount'];
+                            
+                            $vat = $subtotal * $taxPercentage;
+                            $subtotal2 = $subtotal + $vat;
+                            $discount = $subtotal2 * $discountpercentage;
+                            $total = $subtotal2 - $discount;
+
+                            $rounded_vat = number_format($vat, 2, '.', '');
+                            $rounded_discount = number_format($discount, 2, '.', '');
+                            $rounded_total = number_format($total, 2, '.', '');
+                    ?>
+
+                    <input type="hidden" id="tax-percentage" value="<?php echo $maintenance['tax_percentage'] ?>">
+                    <input type="hidden" id="discount-percentage" value="<?php echo $maintenance['discount'] ?>">
+
+                    <div class="compute">
+                        <div class="l">
+                            <div class="child">
+                                <div>
+                                    <label for="vat">VAT</label>
+                                    <input type="number" id="vat" name="vat" readonly="readonly" value="<?php echo $rounded_vat ?>">
+                                </div>
+
+                                <div>
+                                    <label for="dicount">Discount</label>
+                                    <input type="number" id="discount" name="discount" readonly="readonly" value="<?php echo $rounded_discount ?>">
+                                </div>
+                            </div>
+
+                            <div class="child">
+                                <div>
+                                    <label for="subtotal">Subtotal</label>
+                                    <input
+                                        type="number"
+                                        id="subtotal"
+                                        name="subtotal"
+                                        readonly="readonly"
+                                        value="<?php echo $subtotal ?>">
+                                </div>
+                                <div>
+                                    <label for="total">Total</label>
+                                    <input type="number" id="total" name="tubtotal" readonly="readonly" value="<?php echo $rounded_total ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="r">
+                            <!-- <label for="subtotal">Subtotal</label>
+                            <input type="number" id="subtotal" name="subtotal" readonly="readonly"> -->
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script
+                src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+                integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+                crossorigin="anonymous"></script>
+            <script
+                src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+                integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+                crossorigin="anonymous"></script>
+            <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
+            <script src="../../javascript/side-nav-dropdown.js"></script>
+            <script src="../javascript/nav-avatar-dropdown.js"></script>
+            <script src="../javascript/nav-notif-dropdown.js"></script>
+            <script src="../javascript/nav-message-dropdown.js"></script>
+            <script src="../javascript/pos-product-search.js"></script>
+            <script src="../javascript/pos-quantity.js"></script>
+            <script src="../javascript/pos-vat.js"></script>
+
+        <?php else: ?>
+            <div
+                class="no-account-selected"
+                style="height: 90vh; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:red">
+                <h1 style="font-size: 40px;">You don't have permission to access this page</h1>
+                <a
+                    href="../../index.php"
+                    style="background-color: #007bff; color: white; padding:10px 30px; border-radius:5px; text-decoration:none; font-weight:900;">Login</a>
+            </div>
+            <?php endif; ?>
+
+            <script>
+                if (window.history.replaceState) {
+                    window
+                        .history
+                        .replaceState(null, null, window.location.href);
+                }
+            </script>
+        </body>
+    </html>
