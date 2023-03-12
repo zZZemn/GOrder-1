@@ -141,6 +141,9 @@ body {
 
     display: none;
     box-shadow: 1px 1px 3px rgb(216, 216, 216);
+    max-height: 70vh;
+
+    overflow-y: scroll;
 
     z-index: 2;
 }

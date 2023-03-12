@@ -318,8 +318,11 @@
             <a href="user-customer.php">
                 <i class="fa-solid fa-percent"></i>Discount</a>
         </div>
-
+        
         <hr>
+        <a href="../pos.php">
+            <i class="fa-solid fa-calculator"></i>POS</a>
+
 
     </div>
 

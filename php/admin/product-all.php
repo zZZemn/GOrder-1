@@ -246,6 +246,9 @@
 
         <hr>
 
+        <a href="../pos.php">
+            <i class="fa-solid fa-calculator"></i>POS</a>
+
     </div>
 
     <div class="main">
@@ -256,7 +259,7 @@
             </button>
         </form>
         <div class="table-container">
-            <table class="product-table table table-striped">
+            <table class="product-table table table-striped mt-3">
                 <thead>
                     <tr>
                         <th scope="col">Product Code</th>

@@ -246,6 +246,9 @@
         </div>
 
         <hr>
+        <a href="../pos.php">
+            <i class="fa-solid fa-calculator"></i>POS</a>
+
 
     </div>
 
