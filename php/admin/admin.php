@@ -22,6 +22,7 @@
             @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,900;1,200;1,500&family=Roboto+Condensed:wght@300;400&display=swap');
         </style>
         <link rel="stylesheet" href="../../css/admin-nav.css">
+        <link rel="stylesheet" href="../../css/dashboard.css">
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -248,10 +249,36 @@
         <a href="../pos.php">
             <i class="fa-solid fa-calculator"></i>POS</a>
 
-
     </div>
 
-    <div class="main"></div>
+    <div class="main">
+        <div class="top-dashboard">
+            <div class="container">
+                <h5>Daily Sales Transaction</h5>
+                <hr>
+                <div class="details">
+                    <h1>70</h1>
+                </div>
+            </div>
+
+            <div class="container">
+                <h5>Daily Sales</h5>
+                <hr>
+                <div class="details">
+                    <h1>8,000</h1>
+                </div>
+            </div>
+
+            <div class="container">
+                <h5>Profit</h5>
+                <hr>
+                <div class="details top-sales">
+                    <h1>3,000</h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     <script
         src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
