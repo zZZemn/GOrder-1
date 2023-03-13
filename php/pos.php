@@ -1,6 +1,8 @@
 <?php 
   session_start();
 
+  include("../process/date-time.php");
+
   if (isset($_SESSION["user_ID"])) 
   {
       include("../database/db.php");
@@ -83,6 +85,79 @@
             </script>";
     }
    
+  }
+
+
+  if(isset($_POST['save']))
+  {
+    $payment = $_POST['payment'];
+    $change = $_POST['change'];
+    $total = $_POST['total'];
+    $vat = $_POST['vat'];
+    $subtotal = $_POST['subtotal'];
+    $discount = $_POST['discount'];
+    $custID = $_POST['customer'];
+    $custID_insert = null;
+
+    if($custID > 0)
+    {
+        $custID_insert = $custID;
+    }
+
+    include("../process/date-time.php");
+
+    $process_id = str_pad(rand(0, 99999999), 8, '0', STR_PAD_LEFT);
+
+    $process_id_query = "SELECT COUNT(*) AS count FROM tblinvoice WHERE process_id = $process_id";
+    $process_id_result = $conn->query($process_id_query);
+    $invoice = $process_id_result->fetch_assoc();
+
+    while($invoice['count'] > 0)
+    {
+        $process_id = str_pad(rand(0, 99999999), 8, '0', STR_PAD_LEFT);
+
+        $process_id_query = "SELECT COUNT(*) AS count FROM tblinvoice WHERE process_id = $process_id";
+        $process_id_result = $conn->query($process_id_query);
+        $invoice = $process_id_result->fetch_assoc();
+    } 
+
+    $process_by = $user['first_name']." ".$user['last_name'];
+
+    if($payment >= $total)
+    {
+        $insert_invoice = "INSERT INTO `tblinvoice`(`process_id`, `subtotal`, `vat`, `discount`, `total`, `payment`, `change`, `cust_ID`, `date`, `time`, `processed_by`) 
+                            VALUES ('$process_id','$subtotal','$vat','$discount','$total','$payment','$change','$custID_insert','$date','$time', '$process_by')";
+
+        if($conn->query($insert_invoice))
+        {
+            $curr_pos = "SELECT * FROM tblpos_cur_process";
+            $curr_pos_res = $conn->query($curr_pos);
+
+            if($curr_pos_res->num_rows > 0){
+                while($row = $curr_pos_res->fetch_assoc())
+                {
+                    $product_code = $row['product_code'];
+                    $qty = $row['qty'];
+                    $amt = $row['amount'];
+
+                    $insert_prod_sales = "INSERT INTO `tblproduct_sales`(`process_id`, `product_code`, `qty`, `amount`) 
+                    VALUES ('$process_id','$product_code','$qty','$amt')";
+
+                    if($conn->query($insert_prod_sales))
+                    {
+                        $prosalesrow = $row['row'];
+                        $curposdel = "DELETE FROM `tblpos_cur_process` WHERE row = $prosalesrow";
+                        $conn->query($curposdel);
+                    }
+                }
+            }
+        }
+    }
+
+    else 
+    {
+        echo "<script>alert('The payment must be greater than or equal to ".$total." pesos.');</script>";
+    }
   }
 
 
@@ -305,7 +380,63 @@
                     </div>
 
                     <div class="sales">
-                        Sales
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th colspan="11">
+                                        Sales 
+                                        <?php echo $date ?> 
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Process&nbsp;ID</th>
+                                    <th>Customer&nbsp;ID</th>
+                                    <th>Subtotal</th>
+                                    <th>VAT</th>
+                                    <th>Discount</th>
+                                    <th>Total</th>
+                                    <th>Payment</th>
+                                    <th>Change</th>
+                                    <th>Time</th>
+                                    <th>Date</th>
+                                    <th>Processed&nbsp;by</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <?php  
+                                $invoice = "SELECT * FROM tblinvoice";
+                                $invoice_res = $conn->query($invoice);
+
+                                if($invoice_res->num_rows > 0)
+                                {
+                                    while($inv_row = $invoice_res->fetch_assoc())
+                                    {
+                                        $cust_id = $inv_row['cust_ID'];
+                                        
+                                        ?>
+
+                                        <tr>
+                                            <td><a href="admin/invoice.php?process_id=<?php echo $inv_row['process_id'] ?>"><?php echo $inv_row['process_id'] ?></a></td>
+                                            <td><a href="admin/customer.php?customer_id=<?php echo $cust_id?>"><?php echo $cust_id ?></a></td>
+                                            <td><?php echo $inv_row['subtotal'] ?></td>
+                                            <td><?php echo $inv_row['vat'] ?></td>
+                                            <td><?php echo $inv_row['discount']?></td>
+                                            <td><?php echo $inv_row['total'] ?></td>
+                                            <td><?php echo $inv_row['payment'] ?></td>
+                                            <td><?php echo $inv_row['change'] ?></td>
+                                            <td><?php echo $inv_row['time'] ?></td>
+                                            <td><?php echo $inv_row['date'] ?></td>
+                                            <td><?php echo $inv_row['processed_by'] ?></td>
+                                        </tr>
+
+                                        <?php
+                                    }
+                                }
+                                
+                                ?>
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>
@@ -369,7 +500,51 @@
                         </table>
                     </div>
 
-                    <?php 
+                    <form method="post">
+                        <div class="compute">
+                            <div class="r">
+                                <div class="txt-container">
+                                    <div>
+                                        <label for="customer">Customer</label>
+                                        <input type="number" id="customer" name="customer" list="cust">
+
+                                        <datalist id="cust">
+                                            <?php 
+                                        $sql = "SELECT * FROM tblcustomer";
+                                        $result = $conn->query($sql);
+
+                                        if($result->num_rows > 0)
+                                        {
+                                            while($customer = $result->fetch_assoc())
+                                            {
+                                                ?>
+                                            <option value="<?php echo $customer['cust_ID'] ?>"><?php echo $customer['first_name']." ".$customer['last_name']." - ".$customer['age']  ?></option>
+                                            <?php
+                                            }
+                                        }
+                                        ?>
+                                        </datalist>
+
+                                    </div>
+
+                                    <div>
+                                        <label for="payment">Payment</label>
+                                        <input type="number" id="payment" name="payment" required="required">
+                                    </div>
+
+                                    <div>
+                                        <label for="change">Change</label>
+                                        <input type="number" id="change" name="change" value="0.00" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="pos-btn">
+                                    <input type="submit" name="save" value="Save" class="btn btn-primary">
+                                    <input type="submit" name="reset" value="Reset" class="btn btn-dark">
+                                </div>
+                            </div>
+
+                            <?php 
                             $subtotal = 0;
                             $sql = "SELECT * FROM tblpos_cur_process";
                             $result = $conn->query($sql);
@@ -390,54 +565,72 @@
                             $discountpercentage = $maintenance['discount'];
                             
                             $vat = $subtotal * $taxPercentage;
-                            $subtotal2 = $subtotal + $vat;
-                            $discount = $subtotal2 * $discountpercentage;
-                            $total = $subtotal2 - $discount;
 
+                            $total = $subtotal + $vat;
+                            // $discount = $subtotal2 * $discountpercentage;
+                            // $total = $subtotal2 + $vat;
+
+                            $rounded_subtotal = number_format($subtotal, 2, '.', '');
                             $rounded_vat = number_format($vat, 2, '.', '');
-                            $rounded_discount = number_format($discount, 2, '.', '');
+                            // $rounded_discount = number_format($discount, 2, '.', '');
                             $rounded_total = number_format($total, 2, '.', '');
                     ?>
 
-                    <input type="hidden" id="tax-percentage" value="<?php echo $maintenance['tax_percentage'] ?>">
-                    <input type="hidden" id="discount-percentage" value="<?php echo $maintenance['discount'] ?>">
+                            <input
+                                type="hidden"
+                                id="tax-percentage"
+                                value="<?php echo $maintenance['tax_percentage'] ?>">
+                            <input
+                                type="hidden"
+                                id="discount-percentage"
+                                value="<?php echo $maintenance['discount'] ?>">
 
-                    <div class="compute">
-                        <div class="l">
-                            <div class="child">
-                                <div>
-                                    <label for="vat">VAT</label>
-                                    <input type="number" id="vat" name="vat" readonly="readonly" value="<?php echo $rounded_vat ?>">
+                            <div class="l">
+                                <div class="child">
+                                    <div>
+                                        <label for="vat">VAT</label>
+                                        <input
+                                            type="number"
+                                            id="vat"
+                                            name="vat"
+                                            readonly="readonly"
+                                            value="<?php echo $rounded_vat ?>">
+                                    </div>
+
+                                    <div>
+                                        <label for="dicount">Discount</label>
+                                        <input
+                                            type="number"
+                                            id="discount"
+                                            name="discount"
+                                            readonly="readonly"
+                                            value="0.00">
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <label for="dicount">Discount</label>
-                                    <input type="number" id="discount" name="discount" readonly="readonly" value="<?php echo $rounded_discount ?>">
-                                </div>
-                            </div>
-
-                            <div class="child">
-                                <div>
-                                    <label for="subtotal">Subtotal</label>
-                                    <input
-                                        type="number"
-                                        id="subtotal"
-                                        name="subtotal"
-                                        readonly="readonly"
-                                        value="<?php echo $subtotal ?>">
-                                </div>
-                                <div>
-                                    <label for="total">Total</label>
-                                    <input type="number" id="total" name="tubtotal" readonly="readonly" value="<?php echo $rounded_total ?>">
+                                <div class="child">
+                                    <div>
+                                        <label for="subtotal">Subtotal</label>
+                                        <input
+                                            type="number"
+                                            id="subtotal"
+                                            name="subtotal"
+                                            readonly="readonly"
+                                            value="<?php echo $rounded_subtotal ?>">
+                                    </div>
+                                    <div>
+                                        <label for="total">Total</label>
+                                        <input
+                                            type="number"
+                                            id="total"
+                                            name="total"
+                                            readonly="readonly"
+                                            value="<?php echo $rounded_total ?>">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="r">
-                            <!-- <label for="subtotal">Subtotal</label>
-                            <input type="number" id="subtotal" name="subtotal" readonly="readonly"> -->
-                        </div>
-                    </div>
+                    </form>
 
                 </div>
 
@@ -459,6 +652,7 @@
             <script src="../javascript/pos-product-search.js"></script>
             <script src="../javascript/pos-quantity.js"></script>
             <script src="../javascript/pos-vat.js"></script>
+            <script src="../javascript/pos-calculate.js"></script>
 
         <?php else: ?>
             <div

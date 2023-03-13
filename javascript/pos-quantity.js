@@ -8,7 +8,7 @@ function updateSubtotal() {
 
 
 $(document).ready(function() {
-    $('.quantity-input').on('input', function() {
+    $('.quantity-input, #customer').on('input', function() {
       // get the product ID and quantity value
       var productId = $(this).data('product-id');
       var quantity = $(this).val();
@@ -24,19 +24,41 @@ $(document).ready(function() {
 
             var subtotal = parseFloat($('#subtotal').val());
             var taxPercentage = parseFloat($('#tax-percentage').val());
-            var discountpercentage = parseFloat($('#discount-percentage').val());
+            var discountPercentage = parseFloat($('#discount-percentage').val());
+            var customerId = parseInt($('#customer').val());
 
             var vat = subtotal * taxPercentage;
-
             var subtotal2 = subtotal + vat;
 
-            var discount = subtotal2 * discountpercentage;
+            var discount = 0;
+            if (customerId) {
+              $.ajax({
+                url: '../process/get-customer-age.php',
+                method: 'POST',
+                data: { customerId: customerId },
+                success: function(response) {
+                  var customerAge = parseInt(response);
+                  if (customerAge > 59) {
+                    discount = subtotal2 * discountPercentage;
+                  }
+                  var total = subtotal2 - discount;
+                  $('#discount').val(discount.toFixed(2));
+                  $('#vat').val(vat.toFixed(2));
+                  $('#total').val(total.toFixed(2));
+                },
+                error: function(xhr, status, error) {
+                  console.log(error);
+                }
+              });
+            } 
 
-            var total = subtotal2 - discount;
-            
-            $('#discount').val(discount.toFixed(2));
-            $('#vat').val(vat.toFixed(2));
-            $('#total').val(total.toFixed(2));
+            else 
+            {
+              var total = subtotal2;
+              $('#discount').val(discount.toFixed(2));
+              $('#vat').val(vat.toFixed(2));
+              $('#total').val(total.toFixed(2));
+            }
         },
         error: function(xhr, status, error) {
           console.log(error);

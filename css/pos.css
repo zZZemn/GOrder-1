@@ -251,6 +251,7 @@ body {
     width: 100%;
 
     display: flex;
+    
 }
 
 .left {
@@ -279,6 +280,7 @@ body {
     overflow-y: scroll;
 
     max-height: 70%;
+    min-height: 70%;
 }
 
 .product-select {
@@ -299,8 +301,34 @@ body {
 }
 
 .sales {
-    height: 100%;
     border-top: 1px solid rgba(0, 0, 0, 0.137);
+    
+    overflow-y: scroll;
+    height: 100%;
+    padding: 10px;
+    
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.sales table {
+    margin: auto;
+    width: 100%;
+}
+
+.sales table tr{
+    border: 1px solid rgba(185, 185, 185, 0.13);
+}
+
+.sales table th {
+    font-size: 10px;
+    text-align: center;
+
+    padding: 5px;
+}
+
+.sales table td {
+    font-size: 10px;
+    padding: 5px;
 }
 
 /* main */
@@ -325,6 +353,9 @@ body {
     text-align: center;
     height: 50px;
     box-shadow: 1px 1px 5px rgb(226, 226, 226);
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 1px;
+    font-size: 14px;
 }
 
 
@@ -348,7 +379,6 @@ body {
 }
 
 .compute {
-    height: 30%;
     display: flex;
 }
 
@@ -381,6 +411,43 @@ body {
 
 
 .compute .r {
-    background-color: green;
     width: 50%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.compute .r label {
+    font-size: 12px;
+}
+
+#change {
+    height: 30px;
+    width: 100px;
+}
+
+#customer {
+    height: 30px;
+    width: 100px;
+}
+
+#payment {
+    height: 30px;
+    width: 100px;
+}
+
+.txt-container div{
+    display: flex;
+    flex-direction: column;
+}
+
+.pos-btn {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    margin: auto;
+}
+
+.pos-btn input {
+    margin: 5px;
 }
