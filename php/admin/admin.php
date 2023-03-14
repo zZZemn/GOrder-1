@@ -278,31 +278,51 @@
             </div>
         </div>
 
-    </div>
+        <div class="chart">
+            <img src="../../img/chart.png">
 
-    <script
-        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin="anonymous"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
-        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
-        crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
-    <script src="../../javascript/side-nav-dropdown.js"></script>
-    <script src="../../javascript/nav-avatar-dropdown.js"></script>
-    <script src="../../javascript/nav-notif-dropdown.js"></script>
-    <script src="../../javascript/nav-message-dropdown.js"></script>
+            <div class="bottom-dashboard">
+                <div class="pro-critical bottom-parent">
+                    <h5>Critical Products</h5>
+                    <hr>
+                    <div class="bottom-content">
+                        <h1>23</h1>
+                    </div>
+                </div>
 
-<?php else: ?>
-    <div
-        class="no-account-selected"
-        style="height: 90vh; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:red">
-        <h1 style="font-size: 40px;">You don't have permission to access this page</h1>
-        <a
-            href="../../index.php"
-            style="background-color: #007bff; color: white; padding:10px 30px; border-radius:5px; text-decoration:none; font-weight:900;">Login</a>
-    </div>
-    <?php endif; ?>
-</body>
+                <div class="pro-expired bottom-parent">
+                    <h5>Near Expiration</h5>
+                    <hr>
+                    <div class="bottom-content">
+                        <h1>43</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+            integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+            crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
+        <script src="../../javascript/side-nav-dropdown.js"></script>
+        <script src="../../javascript/nav-avatar-dropdown.js"></script>
+        <script src="../../javascript/nav-notif-dropdown.js"></script>
+        <script src="../../javascript/nav-message-dropdown.js"></script>
+
+    <?php else: ?>
+        <div
+            class="no-account-selected"
+            style="height: 90vh; display:flex; flex-direction:column; justify-content:center; align-items:center; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:red">
+            <h1 style="font-size: 40px;">You don't have permission to access this page</h1>
+            <a
+                href="../../index.php"
+                style="background-color: #007bff; color: white; padding:10px 30px; border-radius:5px; text-decoration:none; font-weight:900;">Login</a>
+        </div>
+        <?php endif; ?>
+    </body>
 </html>

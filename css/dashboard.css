@@ -19,3 +19,44 @@
     width: 180px;
     margin: auto;
 }
+
+.chart {
+    position: absolute;
+    bottom: 30px;
+    width: 79%;
+    margin-left: 12px;
+}
+
+.chart img {
+    width: 600px;
+    border-top: 5px solid #212529;
+    box-shadow: 1px 1px 5px rgb(211, 211, 211);
+}
+
+.bottom-dashboard {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 450px;
+    height: 395px;
+    right: 0;
+    top: 0;
+    margin-right: 8px;
+}
+
+.bottom-parent {
+    background-color: white;
+    height: 185px;
+    border-top: 5px solid #212529;
+    box-shadow: 1px 1px 5px rgb(211, 211, 211);
+    padding: 20px;
+}
+
+.bottom-content {
+    text-align: center;
+}
+
+.bottom-content h1 {
+    font-size: 50px;
+}
