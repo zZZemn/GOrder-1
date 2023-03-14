@@ -97,12 +97,6 @@
     $subtotal = $_POST['subtotal'];
     $discount = $_POST['discount'];
     $custID = $_POST['customer'];
-    $custID_insert = null;
-
-    if($custID > 0)
-    {
-        $custID_insert = $custID;
-    }
 
     include("../process/date-time.php");
 
@@ -125,8 +119,16 @@
 
     if($payment >= $total)
     {
-        $insert_invoice = "INSERT INTO `tblinvoice`(`process_id`, `subtotal`, `vat`, `discount`, `total`, `payment`, `change`, `cust_ID`, `date`, `time`, `processed_by`) 
-                            VALUES ('$process_id','$subtotal','$vat','$discount','$total','$payment','$change','$custID_insert','$date','$time', '$process_by')";
+        if($custID > 0)
+        {
+            $insert_invoice = "INSERT INTO `tblinvoice`(`process_id`, `subtotal`, `vat`, `discount`, `total`, `payment`, `change`, `cust_ID`, `date`, `time`, `processed_by`) 
+                            VALUES ('$process_id','$subtotal','$vat','$discount','$total','$payment','$change','$custID','$date','$time', '$process_by')";
+        }
+        else
+        {
+            $insert_invoice = "INSERT INTO `tblinvoice`(`process_id`, `subtotal`, `vat`, `discount`, `total`, `payment`, `change`, `date`, `time`, `processed_by`) 
+            VALUES ('$process_id','$subtotal','$vat','$discount','$total','$payment','$change', '$date','$time', '$process_by')";
+        }
 
         if($conn->query($insert_invoice))
         {
@@ -136,9 +138,24 @@
             if($curr_pos_res->num_rows > 0){
                 while($row = $curr_pos_res->fetch_assoc())
                 {
-                    $product_code = $row['product_code'];
-                    $qty = $row['qty'];
-                    $amt = $row['amount'];
+                    $product_code = filter_var($row['product_code'], FILTER_SANITIZE_NUMBER_INT);
+                    $qty = filter_var($row['qty'], FILTER_SANITIZE_NUMBER_INT);
+                    $amt = filter_var($row['amount'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+                    $update_inventory = "UPDATE tblinventory
+                     SET qty = qty - :qty
+                     WHERE product_code = :product_code
+                     AND expiration_date = (
+                        SELECT MIN(expiration_date)
+                        FROM tblinventory
+                        WHERE product_code = :product_code
+                        AND expiration_date > NOW())";
+                     
+                    $stmt = $pdo->prepare($update_inventory);
+                    $stmt->bindValue(':qty', $qty, PDO::PARAM_INT);
+                    $stmt->bindValue(':product_code', $product_code, PDO::PARAM_STR);
+                    $stmt->execute();
+
 
                     $insert_prod_sales = "INSERT INTO `tblproduct_sales`(`process_id`, `product_code`, `qty`, `amount`) 
                     VALUES ('$process_id','$product_code','$qty','$amt')";
@@ -405,7 +422,7 @@
 
                             <tbody>
                                 <?php  
-                                $invoice = "SELECT * FROM tblinvoice";
+                                $invoice = "SELECT * FROM tblinvoice WHERE date = CURDATE() ORDER BY time DESC";
                                 $invoice_res = $conn->query($invoice);
 
                                 if($invoice_res->num_rows > 0)
@@ -417,8 +434,8 @@
                                         ?>
 
                                         <tr>
-                                            <td><a href="admin/invoice.php?process_id=<?php echo $inv_row['process_id'] ?>"><?php echo $inv_row['process_id'] ?></a></td>
-                                            <td><a href="admin/customer.php?customer_id=<?php echo $cust_id?>"><?php echo $cust_id ?></a></td>
+                                            <td><a href="admin/invoice.php?process_id=<?php echo $inv_row['process_id'] ?>" target="_blank"><?php echo $inv_row['process_id'] ?></a></td>
+                                            <td><a href="admin/customer.php?customer_id=<?php echo $cust_id?>" target="_blank"><?php echo $cust_id ?></a></td>
                                             <td><?php echo $inv_row['subtotal'] ?></td>
                                             <td><?php echo $inv_row['vat'] ?></td>
                                             <td><?php echo $inv_row['discount']?></td>
