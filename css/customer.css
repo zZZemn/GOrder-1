@@ -4,7 +4,7 @@ table {
     margin: auto;
     margin-top: 20vh;
     box-shadow: 1px 1px 5px rgb(145, 145, 145);
-    border-collapse: collapse;
+    border-collapse: collapse ;
 }
 
 table img {
